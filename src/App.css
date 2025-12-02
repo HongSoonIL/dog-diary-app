@@ -1,38 +1,149 @@
-.App {
-  text-align: center;
+:root {
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --accent-color: #10b981;
+  --bg-color: #f0f7ff;
+  --card-bg: #ffffff;
+  --text-main: #333333;
+  --text-sub: #666666;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+body {
+  font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  margin: 0;
+  padding: 20px;
   min-height: 100vh;
+  color: var(--text-main);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 카드 공통 스타일 */
+.card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+
+.header-title {
+  color: var(--primary-color);
+  font-size: 2rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 10px;
+  margin: 0 0 10px 0;
+}
+
+/* 버튼 스타일 */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--primary-color);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-success {
+  background: var(--accent-color);
+  color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* 센서 그리드 */
+.sensor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.sensor-item {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.sensor-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+.sensor-unit {
+  font-size: 1rem;
+  color: var(--text-sub);
+}
+
+/* 일기 영역 */
+.diary-paper {
+  background: #fef3c7;
+  border: 3px solid #fbbf24;
+  border-radius: 15px;
+  padding: 25px;
+  font-family: 'Nanum Pen Script', cursive, sans-serif;
+  font-size: 1.4rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.diary-image {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 입력 필드 */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.input-field {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+  .header-title {
+    font-size: 1.5rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .card {
+    padding: 20px;
   }
 }
