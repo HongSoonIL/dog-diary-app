@@ -164,7 +164,7 @@ function App() {
     <div className="container">
       {/* Header */}
       <div className="card">
-        <h1 className="header-title"><Icons.Activity /> 강아지 환경 그림일기</h1>
+        <h1 className="header-title"><Icons.Activity /> 강아지 그림일기</h1>
         <p>실시간 모니터링 & AI 일기 생성 시스템</p>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <button className={`btn ${isConnected ? 'btn-success' : 'btn-primary'}`} onClick={connectBluetooth} disabled={isConnected || isConnecting}>
