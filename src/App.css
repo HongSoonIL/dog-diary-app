@@ -107,10 +107,12 @@ body {
   border: 3px solid #fbbf24;
   border-radius: 15px;
   padding: 25px;
-  font-family: 'Nanum Pen Script', cursive, sans-serif;
-  font-size: 1.4rem;
-  line-height: 1.6;
+  font-family: 'Gamja Flower', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  font-size: 1.3rem;
+  line-height: 1.8;
   margin-bottom: 20px;
+  white-space: pre-wrap;
+  word-break: keep-all;
 }
 
 .diary-image {

@@ -101,15 +101,50 @@ function App() {
       };
 
       const prompt = `
-                당신은 귀여운 강아지입니다. 오늘 하루를 일기로 써주세요.
-                환경 데이터: 온도 ${summary.temp}도, 습도 ${summary.humid}%, 미세먼지 ${summary.dust}, 수위 ${summary.water}%, 몸무게 ${summary.weight}g.
-                미세먼지가 높으면(30이상) 산책 못가서 슬픔, 온도가 높으면(28도이상) 더움 등을 표현해주세요.
-                말투는 귀엽게, 200자 이내로.
+당신은 귀여운 강아지입니다. 오늘 하루를 일기 형식으로 작성해주세요.
+
+[오늘의 실내 환경 데이터]
+- 온도: ${summary.temp}°C
+- 습도: ${summary.humid}%  
+- 미세먼지(실내): ${summary.dust}㎍/㎥
+- 물통 수위: ${summary.water}% (물을 얼마나 마셨는지)
+- 밥그릇 무게 변화: ${summary.weight}g (사료를 얼마나 먹었는지)
+
+[환경 평가 기준]
+🌡️ 온도
+- 18도 미만: 춥다, 따뜻한 곳을 찾는다
+- 18-23도: 쾌적하다, 활동하기 좋다
+- 23-28도: 좀 따뜻하다, 시원한 곳을 찾는다
+- 28도 이상: 덥다, 힘들다
+
+💧 습도
+- 30% 미만: 건조하다
+- 30-60%: 쾌적하다
+- 60% 이상: 습하다, 불쾌하다
+
+🌫️ 미세먼지(실내)
+- 15 이하: 매우 좋음, 산책 가고 싶다
+- 16-35: 좋음, 쾌적하다
+- 36-75: 보통, 조금 답답하다
+- 76 이상: 나쁨, 숨쉬기 힘들다
+
+💧 물 섭취 (정확한 수치가 아니므로 표현적으로)
+- 수위가 많이 줄었다면: 목이 말라서 물을 많이 마셨다
+- 수위가 조금 줄었다면: 적당히 마셨다
+- 수위 변화가 적다면: 물을 별로 안 마셨다
+
+🍖 사료 섭취 (정확한 수치가 아니므로 표현적으로)
+- 무게가 많이 줄었다면: 밥을 맛있게 많이 먹었다
+- 무게가 조금 줄었다면: 적당히 먹었다
+- 무게 변화가 적다면: 입맛이 없었다
+
+위 환경 데이터와 평가 기준을 바탕으로, 강아지의 입장에서 하루를 회고하는 일기를 작성해주세요.
+말투는 귀엽게, 200자 이내로 작성해주세요.
             `;
 
       // 1. 텍스트 생성 (SDK 사용)
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
       const result = await model.generateContent(prompt);
       const response = await result.response;
