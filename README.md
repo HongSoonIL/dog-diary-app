@@ -58,5 +58,5 @@ npm start
 ### 2. `.env` 파일 설정
 
 ```makefile
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY              # Gemini API 키
+REACT_APP_GEMINI_API_KEY=YOUR_GEMINI_API_KEY              # Gemini API 키
 ```
