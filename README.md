@@ -38,11 +38,11 @@
 ```markdown
 📂 dog-daily-app
  ┗ 📂 src
-  ┣ 🔒 .env
   ┣ 📜 App.css
   ┣ 📜 App.js
   ┣ 📜 Icons.js
   ┗ ...
+┣ 🔒 .env
 ```
 
 
