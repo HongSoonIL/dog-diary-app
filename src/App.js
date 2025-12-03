@@ -12,8 +12,6 @@ function App() {
   const [currentInterval, setCurrentInterval] = useState([]);
 
   // 일기 생성 관련
-  const [apiKey, setApiKey] = useState('');
-  const [showApiInput, setShowApiInput] = useState(false);
   const [diaryResult, setDiaryResult] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -23,10 +21,7 @@ function App() {
   const BLE_SERVICE_UUID = '0000ffe0-0000-1000-8000-00805f9b34fb';
   const BLE_CHARACTERISTIC_UUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
 
-  useEffect(() => {
-    const savedKey = localStorage.getItem('gemini_api_key');
-    if (savedKey) setApiKey(savedKey);
-  }, []);
+
 
   // 블루투스 연결 함수
   const connectBluetooth = async () => {
@@ -88,7 +83,8 @@ function App() {
 
   // 일기 생성 함수
   const generateDiary = async () => {
-    if (!apiKey) return alert('API 키를 먼저 입력해주세요.');
+    const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
+    if (!apiKey) return alert('API 키가 설정되지 않았습니다. .env 파일을 확인해주세요.');
     if (currentInterval.length === 0) return alert('데이터가 충분하지 않습니다. 센서를 연결하고 잠시 기다려주세요.');
 
     setIsGenerating(true);
@@ -174,16 +170,7 @@ function App() {
         </div>
       </div>
 
-      {/* API Key Input */}
-      <div className="card">
-        <button className="btn" style={{ background: '#eee', color: '#333' }} onClick={() => setShowApiInput(!showApiInput)}>🔑 API 키 설정</button>
-        {showApiInput && (
-          <div className="input-group">
-            <input className="input-field" type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder="Gemini API Key" />
-            <button className="btn btn-success" onClick={() => { localStorage.setItem('gemini_api_key', apiKey); setShowApiInput(false); alert('저장됨'); }}>저장</button>
-          </div>
-        )}
-      </div>
+
 
       {/* Sensor Dashboard */}
       <div className="card">
