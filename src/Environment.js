@@ -1,47 +1,80 @@
 import React from 'react';
 import './Environment.css';
-import { Icons } from './Icons';
 
 function Environment({ sensorData, onBack }) {
     return (
         <div className="environment-screen">
+            {/* Back button */}
+            <button className="back-btn" onClick={onBack}>
+                ← 뒤로
+            </button>
+
+            {/* Title */}
             <div className="env-header">
-                <button className="back-btn" onClick={onBack}>
-                    ← 뒤로
-                </button>
-                <h1>🌡️ 환경 모니터링</h1>
+                <h1 className="env-main-title">오늘의 컨디션 🐶</h1>
+                <p className="env-subtitle">반려견의 환경 모니터링</p>
             </div>
 
-            <div className="sensor-dashboard">
+            {/* Sensor cards - Top row (3 cards) */}
+            <div className="sensor-row-top">
+                {/* Temperature */}
                 <div className="sensor-card">
-                    <Icons.Thermometer />
-                    <div className="sensor-value">{sensorData.temp}</div>
-                    <div className="sensor-label">°C 온도</div>
+                    <div className="sensor-circle sensor-temp">
+                        <div className="sensor-icon">☀️</div>
+                        <div className="sensor-value">{sensorData.temp}°C</div>
+                        <div className="sensor-status">포근해요</div>
+                    </div>
                 </div>
 
+                {/* Dust */}
                 <div className="sensor-card">
-                    <Icons.Droplets />
-                    <div className="sensor-value">{sensorData.humid}</div>
-                    <div className="sensor-label">% 습도</div>
+                    <div className="sensor-circle sensor-dust">
+                        <div className="sensor-icon">🍃</div>
+                        <div className="sensor-value">{sensorData.dust} μg/m³</div>
+                        <div className="sensor-status">상쾌해요</div>
+                    </div>
                 </div>
 
+                {/* Humidity (drinking) */}
                 <div className="sensor-card">
-                    <Icons.Wind />
-                    <div className="sensor-value">{sensorData.dust}</div>
-                    <div className="sensor-label">㎍/㎥ 먼지</div>
+                    <div className="sensor-circle sensor-humid">
+                        <div className="sensor-icon">💧</div>
+                        <div className="sensor-status-large">충분히<br />마셨어요</div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Sensor cards - Bottom row (2 cards) */}
+            <div className="sensor-row-bottom">
+                {/* Water level */}
+                <div className="sensor-card">
+                    <div className="sensor-circle sensor-water">
+                        <div className="sensor-icon">💧</div>
+                        <div className="sensor-value">{sensorData.water}%</div>
+                        <div className="sensor-status">건조해요</div>
+                    </div>
                 </div>
 
+                {/* Weight/Food */}
                 <div className="sensor-card">
-                    <Icons.Droplets />
-                    <div className="sensor-value">{sensorData.water}</div>
-                    <div className="sensor-label">% 수위</div>
+                    <div className="sensor-circle sensor-food">
+                        <div className="sensor-icon">🍽️</div>
+                        <div className="sensor-status-large">적당히<br />먹었어요</div>
+                    </div>
                 </div>
+            </div>
 
-                <div className="sensor-card">
-                    <Icons.Scale />
-                    <div className="sensor-value">{sensorData.weight}</div>
-                    <div className="sensor-label">g 무게</div>
-                </div>
+            {/* Right side menu buttons */}
+            <div className="menu">
+                <button className="menu-button menu-environment">환경</button>
+                <button className="menu-button menu-diary" onClick={() => { }}>일기</button>
+                <button className="menu-button menu-settings" onClick={() => { }}>설정</button>
+            </div>
+
+            {/* Logo */}
+            <div className="logo">
+                <span className="logo-icon">🐾</span>
+                <span className="logo-text">재롱이</span>
             </div>
         </div>
     );

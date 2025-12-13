@@ -21,26 +21,7 @@
     z-index: 0;
 }
 
-/* 바인더 구멍 (왼쪽) */
-.binder-holes {
-    position: absolute;
-    left: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 100px;
-    z-index: 2;
-}
-
-.hole {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #d4d4d4;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
+/* 바인더 구멍 제거됨 */
 /* 메인 콘텐츠 영역 */
 .content-area {
     position: absolute;

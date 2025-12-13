@@ -8,15 +8,6 @@ function Main({ isConnected, isConnecting, onConnect, onNavigate }) {
             {/* Background */}
             <div className="background"></div>
 
-            {/* Binder Holes */}
-            <div className="binder-holes">
-                <div className="hole"></div>
-                <div className="hole"></div>
-                <div className="hole"></div>
-                <div className="hole"></div>
-                <div className="hole"></div>
-            </div>
-
             {/* Main Content Area */}
             <div className="content-area">
                 {/* Title Section */}
