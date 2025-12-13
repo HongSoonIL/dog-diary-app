@@ -5,6 +5,28 @@
     padding: 20px;
 }
 
+.settings-screen .back-btn {
+    position: absolute;
+    top: 30px;
+    left: 120px;
+    padding: 12px 28px;
+    background-color: rgba(123, 151, 119, 1);
+    color: rgba(255, 246, 232, 1);
+    border: none;
+    border-radius: 41px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.settings-screen .back-btn:hover {
+    background-color: rgba(100, 130, 96, 1);
+    transform: translateY(-2px);
+}
+
 .settings-header {
     text-align: center;
     color: white;
