@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
-import { Icons } from './Icons';
+import Main from './Main';
+import Environment from './Environment';
+import Diary from './Diary';
+import Settings from './Settings';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 function App() {
+  const [currentScreen, setCurrentScreen] = useState('main'); // 'main', 'environment', 'diary', 'settings'
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [sensorData, setSensorData] = useState({ temp: '--', humid: '--', dust: '--', water: '--', weight: '--' });
@@ -21,8 +25,6 @@ function App() {
   const BLE_SERVICE_UUID = '0000ffe0-0000-1000-8000-00805f9b34fb';
   const BLE_CHARACTERISTIC_UUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
 
-
-
   // 블루투스 연결 함수
   const connectBluetooth = async () => {
     try {
@@ -35,6 +37,7 @@ function App() {
         setIsConnected(false);
         setSensorData({ temp: '--', humid: '--', dust: '--', water: '--', weight: '--' });
         alert('연결이 끊어졌습니다.');
+        setCurrentScreen('main'); // 연결이 끊어지면 메인으로 복귀
       });
 
       const server = await device.gatt.connect();
@@ -151,7 +154,6 @@ function App() {
       const diaryText = response.text();
 
       // 2. 이미지 생성 (CORS 문제로 SVG placeholder 사용)
-      // 브라우저에서는 Imagen API를 직접 호출할 수 없습니다
       const feeling = parseFloat(summary.temp) > 28 ? '더운 날, 시원한 곳을 찾아요' : '기분 좋은 날이에요';
       const emoji = parseFloat(summary.temp) > 28 ? '🌡️' : '😊';
 
@@ -191,49 +193,47 @@ function App() {
     }
   };
 
+  // 화면 전환 핸들러
+  const handleNavigate = (screen) => {
+    setCurrentScreen(screen);
+  };
+
+  const handleBack = () => {
+    setCurrentScreen('main');
+  };
+
   return (
-    <div className="container">
-      {/* Header */}
-      <div className="card">
-        <h1 className="header-title"><Icons.Activity /> 강아지 그림일기</h1>
-        <p>실시간 모니터링 & AI 일기 생성 시스템</p>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <button className={`btn ${isConnected ? 'btn-success' : 'btn-primary'}`} onClick={connectBluetooth} disabled={isConnected || isConnecting}>
-            {isConnecting ? '연결 중...' : isConnected ? '연결됨 (HM-10)' : '블루투스 연결'}
-          </button>
-          {isConnected && <Icons.Wifi color="#10b981" />}
-        </div>
-      </div>
+    <div className="app">
+      {currentScreen === 'main' && (
+        <Main
+          isConnected={isConnected}
+          isConnecting={isConnecting}
+          onConnect={connectBluetooth}
+          onNavigate={handleNavigate}
+        />
+      )}
 
+      {currentScreen === 'environment' && (
+        <Environment
+          sensorData={sensorData}
+          onBack={handleBack}
+        />
+      )}
 
+      {currentScreen === 'diary' && (
+        <Diary
+          diaryResult={diaryResult}
+          isGenerating={isGenerating}
+          onGenerateDiary={generateDiary}
+          onBack={handleBack}
+        />
+      )}
 
-      {/* Sensor Dashboard */}
-      <div className="card">
-        <h2>📊 실시간 데이터</h2>
-        <div className="sensor-grid">
-          <div className="sensor-item"><Icons.Thermometer /><div className="sensor-value">{sensorData.temp}</div><div className="sensor-unit">°C 온도</div></div>
-          <div className="sensor-item"><Icons.Droplets /><div className="sensor-value">{sensorData.humid}</div><div className="sensor-unit">% 습도</div></div>
-          <div className="sensor-item"><Icons.Wind /><div className="sensor-value">{sensorData.dust}</div><div className="sensor-unit">mg/m³ 먼지</div></div>
-          <div className="sensor-item"><Icons.Droplets /><div className="sensor-value">{sensorData.water}</div><div className="sensor-unit">% 수위</div></div>
-          <div className="sensor-item"><Icons.Scale /><div className="sensor-value">{sensorData.weight}</div><div className="sensor-unit">g 무게</div></div>
-        </div>
-      </div>
-
-      {/* Diary Section */}
-      <div className="card">
-        <h2>🎨 그림일기</h2>
-        <button className="btn btn-primary" onClick={generateDiary} disabled={isGenerating}>
-          {isGenerating ? 'AI가 일기 쓰는 중...' : '일기 생성하기'}
-        </button>
-
-        {diaryResult && (
-          <div style={{ marginTop: '20px' }}>
-            <h3>📅 {diaryResult.date}</h3>
-            {diaryResult.image && <img src={diaryResult.image} className="diary-image" alt="일기 그림" />}
-            <div className="diary-paper">{diaryResult.text}</div>
-          </div>
-        )}
-      </div>
+      {currentScreen === 'settings' && (
+        <Settings
+          onBack={handleBack}
+        />
+      )}
     </div>
   );
 }
