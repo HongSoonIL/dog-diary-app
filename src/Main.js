@@ -40,6 +40,12 @@ function Main({ isConnected, isConnecting, onConnect, onNavigate }) {
                 )}
             </div>
 
+            {/* Central Logo */}
+            <div className="central-logo">
+                <h2 className="central-logo-text">재롱이</h2>
+                <span className="central-logo-icon">🐾</span>
+            </div>
+
             {/* Illustration (Absolute Positioned) */}
             <div className="illustration-container">
                 <img src={mainIllustration} alt="할머니와 강아지" className="main-illustration" />

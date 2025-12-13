@@ -210,6 +210,47 @@
     letter-spacing: -0.5px;
 }
 
+/* Central Logo - 메인 화면 중앙 */
+.central-logo {
+    position: absolute;
+    left: 43%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
+    z-index: 5;
+}
+
+.central-logo-icon {
+    font-size: 140px;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+    animation: float 3s ease-in-out infinite;
+}
+
+.central-logo-text {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 160px;
+    font-weight: 800;
+    color: #4A4A4A;
+    letter-spacing: 12px;
+    margin: 0;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
 /* 반응형 디자인 */
 @media (max-width: 1200px) {
     .content-area {
