@@ -1,344 +1,347 @@
-/* 환경 화면 스타일 */
+/* ===== Environment (Main 레이아웃 적용) ===== */
 
 .environment-screen {
-    width: 100vw;
-    min-height: 100vh;
-    background-color: #FFFFF8;
-    overflow: hidden;
-    position: relative;
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #fffff8;
+  overflow: hidden;
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Background (Main과 동일) */
+.environment-screen .background {
+  position: absolute;
+  inset: 0;
+  background-color: #fffff8;
+  z-index: 0;
+}
+
+/* 종이 배경 (Main과 동일) */
+.environment-screen .left-note-paper {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 82%;
+  height: 80%;
+  background-color: #FDF8E7;
+  box-shadow: 20px 20px 10px rgba(51,39,5,0.1);
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 종이 질감 */
+.environment-screen .texture-overlay {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat;
+  background-size: 2000px;
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* 노트 구멍 */
+.environment-screen .hole-container {
+  position: absolute;
+  left: 70px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 80px;
+  z-index: 2;
+}
+
+.environment-screen .hole {
+  width: 53px;
+  height: 53px;
+  background-color: #fffff8;
+  border-radius: 50%;
+  box-shadow:
+    inset 6px 6px 8px rgba(0,0,0,0.24),
+    inset -2px -2px 4px rgba(255,255,255,0.5),
+    0 3px 6px rgba(0,0,0,0.1);
 }
 
 /* Back button */
 .environment-screen .back-btn {
-    position: absolute;
-    top: 50px;
-    left: 120px;
-    padding: 12px 28px;
-    background-color: rgba(123, 151, 119, 1);
-    color: rgba(255, 246, 232, 1);
-    border: none;
-    border-radius: 41px;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 10;
+  position: absolute;
+  top: 20px;
+  left: 60px;
+  padding: 10px 50px;
+  background-color: rgba(123, 151, 119, 1);
+  color: rgba(255, 246, 232, 1);
+  border: none;
+  border-radius: 41px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  font-size: 33px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 4;
 }
 
 .environment-screen .back-btn:hover {
-    background-color: rgba(100, 130, 96, 1);
-    transform: translateY(-2px);
+  background-color: rgba(100, 130, 96, 1);
+  transform: translateY(-2px);
 }
+
+
+
 
 /* Header */
 .environment-screen .env-header {
-    position: absolute;
-    top: 85px;
-    right: 200px;
-    text-align: right;
-    z-index: 5;
+  position: absolute;
+  top: 160px;
+  right: 400px;
+  text-align: right;
+  z-index: 3;
 }
 
 .environment-screen .env-main-title {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 400;
-    font-size: 42px;
-    line-height: 1.2;
-    color: #5A7057;
-    margin: 0 0 8px 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 1000;
+  font-size: 55px;
+  line-height: 1.2;
+  color: #431D04;
+  margin: 0 0 8px 0;
 }
 
 .environment-screen .env-subtitle {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 1.3;
-    color: #5A7057;
-    margin: 0;
-    text-align: right;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.3;
+  color: #5A7057;
+  margin: 0;
 }
+
+
+
+
+
+
 
 /* Sensor rows */
 .environment-screen .sensor-row-top {
-    position: absolute;
-    left: 50%;
-    top: 230px;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 60px;
-    z-index: 3;
+  position: absolute;
+  left: 45%;
+  top: 300px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 60px;
+  z-index: 3;
 }
 
 .environment-screen .sensor-row-bottom {
-    position: absolute;
-    left: 50%;
-    top: 480px;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 100px;
-    z-index: 3;
+  position: absolute;
+  left: 45%;
+  top: 550px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 100px;
+  z-index: 3;
 }
 
 /* Sensor cards */
 .environment-screen .sensor-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .environment-screen .sensor-circle {
-    width: 210px;
-    height: 210px;
-    border-radius: 50%;
-    background: #FFFFFF;
-    box-shadow: 5px 5px 14.1px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 20px;
-    transition: transform 0.3s ease;
-    position: relative;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: #FDF8E7;
+  box-shadow: 10px 10px 10px rgba(67, 30, 4, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+  transition: transform 0.3s ease;
+  position: relative;
 }
 
 .environment-screen .sensor-circle:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .environment-screen .sensor-circle::before {
-    content: '';
-    position: absolute;
-    width: 188px;
-    height: 188px;
-    border-radius: 50%;
-    z-index: -1;
+  content: '';
+  position: absolute;
+  width: 188px;
+  height: 188px;
+  border-radius: 50%;
+  z-index: -1;
 }
 
 .environment-screen .sensor-icon {
-    font-size: 45px;
-    opacity: 0.6;
+  font-size: 45px;
+  opacity: 0.6;
 }
 
 .environment-screen .sensor-value {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 600;
-    font-size: 25px;
-    line-height: 1.2;
-    color: #000000;
-    text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 1.2;
+  color: #000000;
+  text-align: center;
 }
 
-.environment-screen .sensor-status {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 1.2;
-    color: #000000;
-    text-align: center;
-}
-
+.environment-screen .sensor-status,
 .environment-screen .sensor-status-large {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 1.3;
-    color: #000000;
-    text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.3;
+  color: #000000;
+  text-align: center;
 }
 
-/* !!! 중요: 상태가 나쁠 때 빨간색으로 표시하는 클래스 !!! */
 .environment-screen .status-alert {
-    color: #FF4500 !important;
-    /* 오렌지레드 색상, 우선순위 높임 */
-    font-weight: 700;
+  color: #FF4500 !important;
+  font-weight: 700;
 }
 
 /* Circle Colors */
-/* Temperature - yellow */
-.environment-screen .sensor-temp::before {
-    background: #F3DCA8;
-}
+.environment-screen .sensor-temp::before { background: #F3DCA8; }
+.environment-screen .sensor-dust::before { background: #C9E1B1; }
+.environment-screen .sensor-humid::before { background: #ccd4eb; }
+.environment-screen .sensor-water::before { background: #d0e9e9; }
+.environment-screen .sensor-food::before { background: #eadac6; }
 
-/* Dust - green */
-.environment-screen .sensor-dust::before {
-    background: #C9E1B1;
-}
-
-/* Humidity - blue */
-.environment-screen .sensor-humid::before {
-    background: #CCE4EB;
-}
-
-/* Water level - blue */
-.environment-screen .sensor-water::before {
-    background: #D0E1E9;
-}
-
-/* Weight/Food - beige */
-.environment-screen .sensor-food::before {
-    background: #D1C2AE;
-}
-
-/* Menu buttons */
+/* Right Menu (Main과 동일한 위치/크기) */
 .environment-screen .menu {
-    position: absolute;
-    right: 105px;
-    top: 50%;
-    transform: translateY(-190px);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 10;
+  position: absolute;
+  right: 250px;
+  top: 35%;
+  transform: translateY(-190px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 0; /* 종이/센서 뒤 */
 }
 
 .environment-screen .menu-button {
-    width: 75px;
-    padding: 32px 0;
-    background-color: #7B9777;
-    color: white;
-    border: none;
-    border-radius: 0 20px 20px 0;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 700;
-    font-size: 19px;
-    line-height: 1.2;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    letter-spacing: 7px;
+  width: 110px;
+  padding: 30px;
+  background-color: #7A9B7F;
+  color: white;
+  border: none;
+  border-radius: 0 22px 22px 0;
+  font-size: 38px;
+  font-weight: 600;
+  cursor: pointer;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 14px;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .environment-screen .menu-button:hover {
-    background-color: #6A8B6F;
-    transform: translateX(5px);
-    box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.2);
+  transform: translateX(5px);
+  box-shadow: 6px 6px 16px rgba(0,0,0,0.2);
+  filter: brightness(0.95);
 }
 
-.environment-screen .menu-environment {
-    background-color: #7A9B7F;
-}
+.environment-screen .menu-environment { background-color: #7A9B7F; }
+.environment-screen .menu-diary { background-color: #7A9B7F; }
+.environment-screen .menu-settings { background-color: #7A9B7F; }
 
-.environment-screen .menu-diary {
-    background-color: #8FA888;
-}
-
-.environment-screen .menu-settings {
-    background-color: #A4B89D;
-}
-
-/* Logo */
+/* Bottom Right Logo (Main과 동일) */
 .environment-screen .logo {
-    position: absolute;
-    bottom: 60px;
-    left: 120px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 2;
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 4;
 }
 
 .environment-screen .logo-icon {
-    font-size: 32px;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
 }
 
 .environment-screen .logo-text {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: #5D4037;
-    letter-spacing: -0.5px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #4A4A4A;
 }
 
-/* Responsive design */
+/* Responsive (기존 유지) */
 @media (max-width: 1728px) {
-    .environment-screen::before {
-        width: calc(100% - 100px);
-    }
+  .environment-screen .sensor-row-top { gap: 50px; }
+  .environment-screen .sensor-row-bottom { gap: 80px; }
 
-    .environment-screen .sensor-row-top {
-        gap: 50px;
-    }
+  .environment-screen .sensor-circle {
+    width: 180px;
+    height: 180px;
+  }
 
-    .environment-screen .sensor-row-bottom {
-        gap: 80px;
-    }
-
-    .environment-screen .sensor-circle {
-        width: 180px;
-        height: 180px;
-    }
-
-    .environment-screen .sensor-circle::before {
-        width: 162px;
-        height: 162px;
-    }
+  .environment-screen .sensor-circle::before {
+    width: 162px;
+    height: 162px;
+  }
 }
 
 @media (max-width: 768px) {
-    .environment-screen .env-header {
-        top: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-        right: auto;
-    }
+  .environment-screen .env-header {
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    right: auto;
+  }
 
-    .environment-screen .env-main-title {
-        font-size: 32px;
-    }
+  .environment-screen .env-main-title { font-size: 32px; }
+  .environment-screen .env-subtitle { font-size: 20px; }
 
-    .environment-screen .env-subtitle {
-        font-size: 20px;
-    }
+  .environment-screen .sensor-row-top {
+    top: 180px;
+    flex-direction: column;
+    gap: 30px;
+  }
 
-    .environment-screen .sensor-row-top {
-        top: 180px;
-        flex-direction: column;
-        gap: 30px;
-    }
+  .environment-screen .sensor-row-bottom {
+    top: 680px;
+    flex-direction: column;
+    gap: 30px;
+  }
 
-    .environment-screen .sensor-row-bottom {
-        top: 680px;
-        flex-direction: column;
-        gap: 30px;
-    }
+  .environment-screen .sensor-circle {
+    width: 150px;
+    height: 150px;
+  }
 
-    .environment-screen .sensor-circle {
-        width: 150px;
-        height: 150px;
-    }
+  .environment-screen .sensor-circle::before {
+    width: 35px;
+    height: 35px;
+  }
 
-    .environment-screen .sensor-circle::before {
-        width: 135px;
-        height: 135px;
-    }
+  .environment-screen .menu {
+    right: 0;
+  }
 
-    .environment-screen .sensor-value {
-        font-size: 24px;
-    }
-
-    .environment-screen .sensor-status,
-    .environment-screen .sensor-status-large {
-        font-size: 20px;
-    }
-
-    .environment-screen .menu {
-        right: 0;
-    }
-
-    .environment-screen .menu-button {
-        width: 70px;
-        padding: 28px 0;
-        font-size: 16px;
-    }
-
-    .environment-screen .logo {
-        left: 30px;
-        bottom: 30px;
-    }
+  .environment-screen .menu-button {
+    width: 70px;
+    padding: 18px 0;
+    font-size: 16px;
+    letter-spacing: 7px;
+  }
 }
+
+
+

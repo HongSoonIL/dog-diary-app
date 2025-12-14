@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Settings.css';
-
-// 이미지 경로 (환경에 맞게 확인 필요)
 import defaultProfileImg from './assets/profile.png';
+import paperTexture from './assets/paper_texture.png';
+
 
 function Settings({ onBack, onNavigate }) {
     const fileInputRef = useRef(null);
@@ -62,7 +62,24 @@ function Settings({ onBack, onNavigate }) {
     const handleEdit = () => { setIsSaved(false); };
 
     return (
+
+    
         <div className="settings-screen">
+                  {/* ✅ [추가] 메인과 동일한 종이 배경 레이어 */}
+        <div className="settings-paper-bg">
+            <div
+            className="texture-overlay"
+            style={{ backgroundImage: `url(${paperTexture})` }}
+            />
+            <div className="hole-container">
+            <div className="hole" />
+            <div className="hole" />
+            <div className="hole" />
+            <div className="hole" />
+            </div>
+        </div>
+
+
             {/* 뒤로가기 버튼 */}
             <button className="back-btn" onClick={onBack}>
                 ← 뒤로
