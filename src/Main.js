@@ -1,6 +1,6 @@
 import React from 'react';
 import './main.css';
-import mainIllustration from './assets/main-illustration.png';
+import mainIllustration from './assets/main_img.png';
 
 function Main({ isConnected, isConnecting, onConnect, onNavigate }) {
     return (

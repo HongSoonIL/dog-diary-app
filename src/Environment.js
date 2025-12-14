@@ -41,7 +41,7 @@ function Environment({ sensorData, onBack, onNavigate }) {
             return { icon: "🌵", text: "너무 건조해요", isBad: true };
         } else {
             // 쾌적: 반짝이 아이콘
-            return { icon: "쾌적해요", isBad: false };
+            return { icon: "🌳", text: "쾌적해요", isBad: false };
         }
     };
 
@@ -50,19 +50,27 @@ function Environment({ sensorData, onBack, onNavigate }) {
         if (level <= 30) {
             // 물 부족: 양동이(채워달라는 의미) 아이콘
             return { icon: "🪣", text: "많이 마셨어요", isBad: true };
+        } else if (level >= 70) {
+            // 물 많음: 양동이(채워달라는 의미) 아이콘
+            return { icon: "🪣", text: "조금 마셨어요", isBad: true };
+        } else {
+            // 충분: 밥그릇 아이콘
+            return { icon: "💧💧", text: "적당해요", isBad: false };
         }
-        // 충분: 밥그릇 아이콘
-        return { icon: "🥣", text: "충분해요", isBad: false };
     };
 
     // 5. 사료 무게 상태 함수
     const getFoodStatus = (amount) => {
         if (amount <= 20) {
             // 사료 부족: 빈 접시 아이콘
-            return { icon: "🍽️", text: "많이 먹었어요", isBad: true };
+            return { icon: "🍽️🍽️", text: "많이 먹었어요", isBad: true };
+        } else if (amount >= 70) {
+            // 사료 많음: 양동이(채워달라는 의미) 아이콘
+            return { icon: "🍽️", text: "조금 먹었어요", isBad: true };
+        } else {
+            // 충분: 고기 아이콘
+            return { icon: "🍖", text: "적당해요", isBad: false };
         }
-        // 충분: 고기 아이콘
-        return { icon: "🍖", text: "적당해요", isBad: false };
     };
 
     // 상태 계산 (데이터가 없을 경우 0으로 처리)

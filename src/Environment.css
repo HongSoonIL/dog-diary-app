@@ -1,11 +1,25 @@
 /* 환경 화면 스타일 */
 
+/* 핵심 변경 사항:
+   1. width/height를 고정 px로 변경 (1440px x 1024px)
+   2. 반응형 코드(@media) 전체 삭제
+*/
+
 .environment-screen {
-    width: 100vw;
-    min-height: 100vh;
+    position: relative;
+    /* 화면 너비(vw)가 아닌 고정 픽셀(px)로 설정 */
+    width: 1740px;
+    height: 1024px;
+    /* 창이 줄어들어도 이 크기 유지 */
+    min-width: 1440px;
+    min-height: 1024px;
+
     background-color: #FFFFF8;
     overflow: hidden;
-    position: relative;
+    /* 컨테이너 밖으로 나가는 요소 숨김 */
+
+    /* 중앙 정렬을 원하시면 아래 주석 해제 */
+    /* margin: 0 auto; */
 }
 
 /* Back button */
@@ -151,7 +165,6 @@
 /* !!! 중요: 상태가 나쁠 때 빨간색으로 표시하는 클래스 !!! */
 .environment-screen .status-alert {
     color: #FF4500 !important;
-    /* 오렌지레드 색상, 우선순위 높임 */
     font-weight: 700;
 }
 
@@ -233,7 +246,7 @@
 /* Logo */
 .environment-screen .logo {
     position: absolute;
-    bottom: 60px;
+    bottom: 110px;
     left: 120px;
     display: flex;
     align-items: center;
@@ -254,91 +267,9 @@
     letter-spacing: -0.5px;
 }
 
-/* Responsive design */
-@media (max-width: 1728px) {
-    .environment-screen::before {
-        width: calc(100% - 100px);
-    }
-
-    .environment-screen .sensor-row-top {
-        gap: 50px;
-    }
-
-    .environment-screen .sensor-row-bottom {
-        gap: 80px;
-    }
-
-    .environment-screen .sensor-circle {
-        width: 180px;
-        height: 180px;
-    }
-
-    .environment-screen .sensor-circle::before {
-        width: 162px;
-        height: 162px;
-    }
-}
-
-@media (max-width: 768px) {
-    .environment-screen .env-header {
-        top: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-        right: auto;
-    }
-
-    .environment-screen .env-main-title {
-        font-size: 32px;
-    }
-
-    .environment-screen .env-subtitle {
-        font-size: 20px;
-    }
-
-    .environment-screen .sensor-row-top {
-        top: 180px;
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .environment-screen .sensor-row-bottom {
-        top: 680px;
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .environment-screen .sensor-circle {
-        width: 150px;
-        height: 150px;
-    }
-
-    .environment-screen .sensor-circle::before {
-        width: 135px;
-        height: 135px;
-    }
-
-    .environment-screen .sensor-value {
-        font-size: 24px;
-    }
-
-    .environment-screen .sensor-status,
-    .environment-screen .sensor-status-large {
-        font-size: 20px;
-    }
-
-    .environment-screen .menu {
-        right: 0;
-    }
-
-    .environment-screen .menu-button {
-        width: 70px;
-        padding: 28px 0;
-        font-size: 16px;
-    }
-
-    .environment-screen .logo {
-        left: 30px;
-        bottom: 30px;
-    }
-}
+/* ########################################
+   반응형 디자인(@media) 섹션을 모두 삭제했습니다.
+   이제 창 크기를 줄여도 요소의 크기나 배치가
+   변하지 않고 고정됩니다.
+   ########################################
+*/

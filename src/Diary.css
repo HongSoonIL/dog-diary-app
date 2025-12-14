@@ -18,12 +18,20 @@
    ========================================= */
 
 .diary-screen {
-    min-height: 100vh;
+    position: relative;
+    /* 화면 너비(vw)가 아닌 고정 픽셀(px)로 설정 */
+    width: 1740px;
+    height: 1024px;
+    /* 창이 줄어들어도 이 크기 유지 */
+    min-width: 1440px;
+    min-height: 1024px;
+
     background-color: var(--bg-color);
-    /* Figma Body Color */
     padding: 0px;
     font-family: var(--font-body);
     color: var(--text-brown);
+    overflow: hidden;
+    /* 컨테이너 밖으로 나가는 요소 숨김 */
 }
 
 /* 뒤로가기 버튼: Figma 메뉴 스타일 적용 */
@@ -31,13 +39,11 @@
     position: absolute;
     top: 50px;
     left: 120px;
-    /* 기존 위치 유지 */
     padding: 12px 28px;
     background-color: rgba(123, 151, 119, 1);
     color: rgba(255, 246, 232, 1);
     border: none;
     border-radius: 41px;
-    /* Figma Radius */
     font-family: var(--font-head);
     font-weight: 700;
     font-size: 20px;
@@ -59,14 +65,12 @@
     text-align: center;
     margin-bottom: 0px;
     margin-top: 100px;
-
 }
 
 .diary-header h1 {
     font-family: var(--font-head);
     font-weight: 700;
     font-size: 55px;
-    /* Figma Text Size */
     color: var(--text-brown);
     margin-top: 350px;
     margin-right: 620px;
@@ -77,17 +81,13 @@
    ========================================= */
 
 .diary-content {
-
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
-
     padding-top: 0px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
 /* 생성 버튼: Figma 메뉴 버튼 스타일로 통일 */
@@ -98,7 +98,6 @@
     color: var(--text-beige);
     border: none;
     border-radius: 41px;
-    /* Figma Radius */
     font-family: var(--font-head);
     font-size: 24px;
     font-weight: 700;
@@ -106,7 +105,6 @@
     transition: all 0.3s;
     margin-top: 100px;
     margin-right: 600px;
-
 }
 
 .generate-btn:hover:not(:disabled) {
@@ -190,7 +188,6 @@
     border-radius: 15px;
 }
 
-
 /* =========================================
    5. Result Area
    ========================================= */
@@ -224,7 +221,7 @@
 
 .diary-screen .diary-logo {
     position: absolute;
-    bottom: 60px;
+    bottom: 110px;
     left: 120px;
     display: flex;
     align-items: center;
@@ -235,9 +232,7 @@
 /* 일기 내용: Figma '자기소개' 박스 스타일 적용 */
 .diary-paper {
     background-color: var(--text-beige);
-    /* Figma Box Color */
     border: 3px solid var(--text-brown);
-    /* 테두리 추가로 가독성 확보 */
     border-radius: 20px;
     padding: 30px;
     font-family: var(--font-body);
@@ -248,9 +243,7 @@
     white-space: pre-wrap;
     word-break: keep-all;
     box-shadow: 4px 4px 0px rgba(67, 29, 4, 0.2);
-    /* 약간의 입체감 */
 }
-
 
 .diary-screen .logo {
     position: absolute;
@@ -275,17 +268,9 @@
     letter-spacing: -0.5px;
 }
 
-
-
-/* 반응형 (기존 템플릿 유지 + Figma Media Query 참고) */
-@media (max-width: 768px) {
-    .diary-screen .back-btn {
-        position: static;
-        margin-bottom: 15px;
-        display: inline-block;
-    }
-
-    .diary-header h1 {
-        font-size: 40px;
-    }
-}
+/* ########################################
+   반응형 디자인(@media) 섹션을 모두 삭제했습니다.
+   이제 창 크기를 줄여도 요소의 크기나 배치가
+   변하지 않고 고정됩니다.
+   ########################################
+*/
