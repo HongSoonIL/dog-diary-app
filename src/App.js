@@ -217,6 +217,7 @@ function App() {
         <Environment
           sensorData={sensorData}
           onBack={handleBack}
+          onNavigate={handleNavigate}
         />
       )}
 
@@ -226,12 +227,14 @@ function App() {
           isGenerating={isGenerating}
           onGenerateDiary={generateDiary}
           onBack={handleBack}
+          onNavigate={handleNavigate}
         />
       )}
 
       {currentScreen === 'settings' && (
         <Settings
           onBack={handleBack}
+          onNavigate={handleNavigate}
         />
       )}
     </div>

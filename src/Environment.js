@@ -1,7 +1,7 @@
 import React from 'react';
 import './Environment.css';
 
-function Environment({ sensorData, onBack }) {
+function Environment({ sensorData, onBack, onNavigate }) {
     return (
         <div className="environment-screen">
             {/* Back button */}
@@ -67,8 +67,8 @@ function Environment({ sensorData, onBack }) {
             {/* Right side menu buttons */}
             <div className="menu">
                 <button className="menu-button menu-environment">환경</button>
-                <button className="menu-button menu-diary" onClick={() => { }}>일기</button>
-                <button className="menu-button menu-settings" onClick={() => { }}>설정</button>
+                <button className="menu-button menu-diary" onClick={() => onNavigate('diary')}>일기</button>
+                <button className="menu-button menu-settings" onClick={() => onNavigate('settings')}>설정</button>
             </div>
 
             {/* Logo */}

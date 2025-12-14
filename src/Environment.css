@@ -13,7 +13,7 @@
 /* Back button */
 .environment-screen .back-btn {
     position: absolute;
-    top: 30px;
+    top: 50px;
     left: 120px;
     padding: 12px 28px;
     background-color: rgba(123, 151, 119, 1);

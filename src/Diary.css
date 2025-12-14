@@ -1,81 +1,224 @@
-/* 일기 화면 임시 스타일 - 추후 사용자 제공 CSS로 교체 예정 */
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;700&family=Baloo+Tammudu+2:wght@400;500;700&display=swap');
+
+:root {
+    /* Color Palette */
+    --bg-color: rgba(255, 255, 248, 1);
+    --green-btn: rgba(123, 151, 119, 1);
+    --text-beige: rgba(255, 246, 232, 1);
+    --text-brown: rgba(67, 29, 4, 1);
+    --text-dark: rgba(8, 0, 16, 1);
+
+    /* Fonts */
+    --font-head: 'Noto Sans KR', sans-serif;
+    --font-body: 'Noto Sans KR', sans-serif;
+}
+
+/* =========================================
+   2. Diary Screen Layout
+   ========================================= */
+
 .diary-screen {
     min-height: 100vh;
-    background: #fffff8;
-    padding: 20px;
+    background-color: var(--bg-color);
+    /* Figma Body Color */
+    padding: 0px;
+    font-family: var(--font-body);
+    color: var(--text-brown);
 }
+
+/* 뒤로가기 버튼: Figma 메뉴 스타일 적용 */
+.diary-screen .back-btn {
+    position: absolute;
+    top: 50px;
+    left: 120px;
+    /* 기존 위치 유지 */
+    padding: 12px 28px;
+    background-color: rgba(123, 151, 119, 1);
+    color: rgba(255, 246, 232, 1);
+    border: none;
+    border-radius: 41px;
+    /* Figma Radius */
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.diary-screen .back-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(0.95);
+}
+
+/* =========================================
+   3. Header Section
+   ========================================= */
 
 .diary-header {
     text-align: center;
-    color: white;
-    margin-bottom: 30px;
     position: relative;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-left: 100px;
+
+
 }
 
 .diary-header h1 {
-    font-size: 2.5rem;
-    margin: 20px 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 55px;
+    /* Figma Text Size */
+    color: var(--text-brown);
+    margin: 0px;
 }
 
+/* =========================================
+   4. Content & Controls
+   ========================================= */
+
 .diary-content {
-    max-width: 800px;
+    max-width: 500px;
     margin: 0 auto;
 }
 
+/* 생성 버튼: Figma 메뉴 버튼 스타일로 통일 */
 .generate-btn {
     width: 100%;
     padding: 18px;
-    background: white;
-    color: #f5576c;
+    background-color: var(--green-btn);
+    color: var(--text-beige);
     border: none;
-    border-radius: 15px;
-    font-size: 1.2rem;
+    border-radius: 41px;
+    /* Figma Radius */
+    font-family: var(--font-head);
+    font-size: 24px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s;
-    margin-bottom: 30px;
+    margin-top: 530px;
 }
 
 .generate-btn:hover:not(:disabled) {
     transform: scale(1.02);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(123, 151, 119, 0.4);
 }
 
 .generate-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+    background-color: #999;
 }
 
-.diary-result {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 30px;
+/* Right side menu buttons - 메인 화면과 동일 */
+.diary-screen .menu {
+    position: absolute;
+    right: 105px;
+    top: 50%;
+    transform: translateY(-190px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10;
+}
+
+.diary-screen .menu-button {
+    width: 75px;
+    padding: 32px 0;
+    background-color: #7B9777;
     color: white;
+    border: none;
+    border-radius: 0 20px 20px 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: 7px;
+}
+
+.diary-screen .menu-button:hover {
+    background-color: #6A8B6F;
+    transform: translateX(5px);
+    box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.diary-screen .menu-environment {
+    background-color: #7A9B7F;
+}
+
+.diary-screen .menu-diary {
+    background-color: #8FA888;
+}
+
+.diary-screen .menu-settings {
+    background-color: #A4B89D;
+}
+
+/* =========================================
+   5. Result Area
+   ========================================= */
+
+.diary-result {
+    /* Glass effect 제거하고 깔끔한 레이아웃 유지 */
+    background: transparent;
+    padding: 10px;
+    color: var(--text-brown);
 }
 
 .diary-result h3 {
-    font-size: 1.5rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 30px;
     margin-bottom: 20px;
+    text-align: center;
+    color: var(--text-brown);
 }
 
 .diary-image {
     width: 100%;
     max-height: 500px;
     object-fit: contain;
-    border-radius: 15px;
-    margin-bottom: 20px;
+    /* Figma 프로필 이미지 스타일 참고: 갈색 테두리 */
+    border: 5px solid var(--text-brown);
+    border-radius: 20px;
+    margin-bottom: 25px;
+    background-color: white;
 }
 
+/* 일기 내용: Figma '자기소개' 박스 스타일 적용 */
 .diary-paper {
-    background: #fef3c7;
-    border: 3px solid #fbbf24;
-    border-radius: 15px;
-    padding: 25px;
+    background-color: var(--text-beige);
+    /* Figma Box Color */
+    border: 3px solid var(--text-brown);
+    /* 테두리 추가로 가독성 확보 */
+    border-radius: 20px;
+    padding: 30px;
+    font-family: var(--font-body);
     font-size: 1.3rem;
+    font-weight: 500;
     line-height: 1.8;
-    color: #333;
+    color: var(--text-brown);
     white-space: pre-wrap;
     word-break: keep-all;
+    box-shadow: 4px 4px 0px rgba(67, 29, 4, 0.2);
+    /* 약간의 입체감 */
+}
+
+/* 반응형 (기존 템플릿 유지 + Figma Media Query 참고) */
+@media (max-width: 768px) {
+    .diary-screen .back-btn {
+        position: static;
+        margin-bottom: 15px;
+        display: inline-block;
+    }
+
+    .diary-header h1 {
+        font-size: 40px;
+    }
 }

@@ -13,7 +13,8 @@ function Main({ isConnected, isConnecting, onConnect, onNavigate }) {
                 {/* Title Section */}
                 <div className="title-section">
                     <h1 className="main-title-text">
-                        당신의 가족을 위한<br />
+                        당신의 가족을 위한
+                        <br />
                         가장 따뜻한 돌봄
                     </h1>
                     <p className="subtitle-text">
@@ -21,23 +22,29 @@ function Main({ isConnected, isConnecting, onConnect, onNavigate }) {
                     </p>
                 </div>
 
-                {/* Start Button */}
-                <button className="start-button" onClick={() => onNavigate('environment')}>
-                    시작하기
-                </button>
+                {/* 시작하기 버튼 */}
+                {/* 1. 두 요소를 감싸는 부모 상자 (나란히 배치를 위해) */}
+                <div className="button-group">
 
-                {/* Bluetooth Connection (Below Start Button) */}
-                {!isConnected ? (
-                    <div className="bluetooth-info">
-                        <button className="bluetooth-connect-btn" onClick={onConnect} disabled={isConnecting}>
-                            {isConnecting ? '📡 연결 중...' : '📡 센서 연결하기'}
-                        </button>
+                    {/* ▼▼▼ 1. 블루투스 부분을 먼저 적습니다 (왼쪽으로 감) ▼▼▼ */}
+                    <div className="bluetooth-wrapper">
+                        {!isConnected ? (
+                            <button className="bluetooth-connect-btn" onClick={onConnect} disabled={isConnecting}>
+                                {isConnecting ? '📡 연결 중...' : '📡 센서 연결하기'}
+                            </button>
+                        ) : (
+                            <span className="connected-indicator">
+                                ✓ 센서 연결됨
+                            </span>
+                        )}
                     </div>
-                ) : (
-                    <div className="bluetooth-connected">
-                        <span className="connected-indicator">✓ 센서 연결됨</span>
-                    </div>
-                )}
+
+                    {/* ▼▼▼ 2. 시작하기 버튼을 나중에 적습니다 (오른쪽으로 감) ▼▼▼ */}
+                    <button className="start-button" onClick={() => onNavigate('environment')}>
+                        시작하기
+                    </button>
+
+                </div>
             </div>
 
             {/* Central Logo */}
