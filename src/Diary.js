@@ -1,9 +1,14 @@
 import React from 'react';
 import './Diary.css';
+import diaryIllustration from './assets/diary.svg';
 
 function Diary({ diaryResult, isGenerating, onGenerateDiary, onBack, onNavigate }) {
     return (
         <div className="diary-screen">
+
+            <div className="diary-illustration-container">
+                <img src={diaryIllustration} alt="그림일기" className="diary-illustration" />
+            </div>
 
             {/* 화면 전체(diary-screen)를 기준으로 위치 선정. */}
             <div className="menu">
@@ -12,10 +17,14 @@ function Diary({ diaryResult, isGenerating, onGenerateDiary, onBack, onNavigate 
                 <button className="menu-button menu-settings" onClick={() => onNavigate('settings')}>설정</button>
             </div>
 
+            {/* Logo - Bottom Left */}
+            <div className="diary-logo">
+                <span className="logo-icon">🐾</span>
+                <span className="logo-text">재롱이</span>
+            </div>
+
             {/* 2. 헤더 영역 */}
             <div className="diary-header">
-            </div>
-            <div>
                 <h1>📔 그림일기</h1>
             </div>
 

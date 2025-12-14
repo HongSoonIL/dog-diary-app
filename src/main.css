@@ -68,7 +68,7 @@
 
 /* 시작하기 버튼 */
 .start-button {
-    padding: 17px 55px;
+    padding: 17px 70px;
     background-color: #7A9B7F;
     color: white;
     border: none;
@@ -97,7 +97,7 @@
     right: 180px;
     top: 50%;
     transform: translateY(-50%);
-    width: 460px;
+    width: 560px;
     height: 380px;
     background: linear-gradient(135deg, #FFF9E6 0%, #FFE4B5 100%);
     border-radius: 25px;
@@ -210,11 +210,11 @@
     background-color: #A4B89D;
 }
 
-/* 로고 (하단 우측) */
+/* 로고 (하단 우측) 
 .logo {
     position: absolute;
     bottom: 40px;
-    right: 120px;
+    left: 120px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -232,6 +232,7 @@
     color: #5D4037;
     letter-spacing: -0.5px;
 }
+*/
 
 /* Central Logo - 메인 화면 중앙 */
 .central-logo {
@@ -341,6 +342,7 @@
         font-size: 16px;
     }
 
+    /*
     .logo {
         bottom: 30px;
         right: 80px;
@@ -353,6 +355,7 @@
     .logo-text {
         font-size: 24px;
     }
+        */
 }
 
 @media (max-width: 600px) {
@@ -396,6 +399,7 @@
         letter-spacing: 6px;
     }
 
+    /*
     .logo {
         bottom: 20px;
         right: 30px;
@@ -408,4 +412,5 @@
     .logo-text {
         font-size: 20px;
     }
+    */
 }

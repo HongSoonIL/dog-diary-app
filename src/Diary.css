@@ -57,11 +57,8 @@
 
 .diary-header {
     text-align: center;
-    position: relative;
-    margin-bottom: 30px;
-    margin-top: 20px;
-    margin-left: 100px;
-
+    margin-bottom: 0px;
+    margin-top: 100px;
 
 }
 
@@ -71,7 +68,8 @@
     font-size: 55px;
     /* Figma Text Size */
     color: var(--text-brown);
-    margin: 0px;
+    margin-top: 350px;
+    margin-right: 620px;
 }
 
 /* =========================================
@@ -79,8 +77,17 @@
    ========================================= */
 
 .diary-content {
+
+    width: 100%;
     max-width: 500px;
     margin: 0 auto;
+
+    padding-top: 0px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }
 
 /* 생성 버튼: Figma 메뉴 버튼 스타일로 통일 */
@@ -97,7 +104,9 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s;
-    margin-top: 530px;
+    margin-top: 100px;
+    margin-right: 600px;
+
 }
 
 .generate-btn:hover:not(:disabled) {
@@ -160,6 +169,28 @@
     background-color: #A4B89D;
 }
 
+/* 일러스트 컨테이너 */
+.diary-illustration-container {
+    position: absolute;
+    right: 180px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 560px;
+    height: 380px;
+    background: linear-gradient(135deg, #FFF9E6 0%, #FFE4B5 100%);
+    border-radius: 25px;
+    padding: 25px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.diary-illustration {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+
 /* =========================================
    5. Result Area
    ========================================= */
@@ -191,6 +222,16 @@
     background-color: white;
 }
 
+.diary-screen .diary-logo {
+    position: absolute;
+    bottom: 60px;
+    left: 120px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+}
+
 /* 일기 내용: Figma '자기소개' 박스 스타일 적용 */
 .diary-paper {
     background-color: var(--text-beige);
@@ -209,6 +250,32 @@
     box-shadow: 4px 4px 0px rgba(67, 29, 4, 0.2);
     /* 약간의 입체감 */
 }
+
+
+.diary-screen .logo {
+    position: absolute;
+    bottom: 60px;
+    left: 120px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+}
+
+.diary-screen .logo-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.diary-screen .logo-text {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #5D4037;
+    letter-spacing: -0.5px;
+}
+
+
 
 /* 반응형 (기존 템플릿 유지 + Figma Media Query 참고) */
 @media (max-width: 768px) {

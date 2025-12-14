@@ -341,6 +341,29 @@ input:focus {
     border-bottom: 2px solid rgba(0, 0, 0, 0.08);
 }
 
+.settings-screen .logo {
+    position: absolute;
+    bottom: 135px;
+    left: 120px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+}
+
+.settings-screen .logo-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.settings-screen .logo-text {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #5D4037;
+    letter-spacing: -0.5px;
+}
+
 /* 반응형 (모바일) */
 @media (max-width: 900px) {
     .settings-screen {
@@ -386,4 +409,6 @@ input:focus {
     .input-row {
         justify-content: center;
     }
+
+
 }

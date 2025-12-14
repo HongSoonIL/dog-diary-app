@@ -15,6 +15,7 @@ function Environment({ sensorData, onBack, onNavigate }) {
                 <p className="env-subtitle">반려견의 환경 모니터링</p>
             </div>
 
+
             {/* Sensor cards - Top row (3 cards) */}
             <div className="sensor-row-top">
                 {/* Temperature */}

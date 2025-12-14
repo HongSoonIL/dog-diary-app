@@ -75,6 +75,12 @@ function Settings({ onBack, onNavigate }) {
                 <button className="menu-button menu-settings">설정</button>
             </div>
 
+            {/* Logo - Bottom Left */}
+            <div className="logo">
+                <span className="logo-icon">🐾</span>
+                <span className="logo-text">재롱이</span>
+            </div>
+
             {/* 메인 컨텐츠 */}
             <div className="settings-content">
                 <div className="settings-card">
