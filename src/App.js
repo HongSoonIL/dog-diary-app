@@ -1,9 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
-import { Icons } from './Icons';
+import Main from './Main';
+import Environment from './Environment';
+import Diary from './Diary';
+import Settings from './Settings';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { selectImagePrompt } from './utils/imagePrompts';
+import { generateDogImage } from './services/imageGenerationService';
 
 function App() {
+  const [currentScreen, setCurrentScreen] = useState('main'); // 'main', 'environment', 'diary', 'settings'
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [sensorData, setSensorData] = useState({ temp: '--', humid: '--', dust: '--', water: '--', weight: '--' });
@@ -12,10 +18,11 @@ function App() {
   const [currentInterval, setCurrentInterval] = useState([]);
 
   // 일기 생성 관련
-  const [apiKey, setApiKey] = useState('');
-  const [showApiInput, setShowApiInput] = useState(false);
   const [diaryResult, setDiaryResult] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
+
+  // 강아지 설정 정보
+  const [petInfo, setPetInfo] = useState(null);
 
   const textDecoder = new TextDecoder('utf-8');
   const lineBuffer = useRef('');
@@ -23,9 +30,12 @@ function App() {
   const BLE_SERVICE_UUID = '0000ffe0-0000-1000-8000-00805f9b34fb';
   const BLE_CHARACTERISTIC_UUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
 
+  // localStorage에서 강아지 설정 정보 로드
   useEffect(() => {
-    const savedKey = localStorage.getItem('gemini_api_key');
-    if (savedKey) setApiKey(savedKey);
+    const savedData = localStorage.getItem('petSettingsData');
+    if (savedData) {
+      setPetInfo(JSON.parse(savedData));
+    }
   }, []);
 
   // 블루투스 연결 함수
@@ -40,6 +50,7 @@ function App() {
         setIsConnected(false);
         setSensorData({ temp: '--', humid: '--', dust: '--', water: '--', weight: '--' });
         alert('연결이 끊어졌습니다.');
+        setCurrentScreen('main'); // 연결이 끊어지면 메인으로 복귀
       });
 
       const server = await device.gatt.connect();
@@ -88,43 +99,125 @@ function App() {
 
   // 일기 생성 함수
   const generateDiary = async () => {
-    if (!apiKey) return alert('API 키를 먼저 입력해주세요.');
-    if (currentInterval.length === 0) return alert('데이터가 충분하지 않습니다. 센서를 연결하고 잠시 기다려주세요.');
+    const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
+    if (!apiKey) return alert('API 키가 설정되지 않았습니다. .env 파일을 확인해주세요.');
 
     setIsGenerating(true);
     try {
-      // 평균값 계산
-      const avg = (key) => (currentInterval.reduce((sum, item) => sum + parseFloat(item[key]), 0) / currentInterval.length).toFixed(1);
+      // 📊 환경 데이터 소스 결정
+      let summary;
+      let dataSource;
 
-      const summary = {
-        temp: avg('temp'),
-        humid: avg('humid'),
-        dust: avg('dust'),
-        water: avg('water'),
-        weight: avg('weight')
-      };
+      if (currentInterval.length === 0) {
+        // 🔌 블루투스 미연결 → 더미 데이터 사용 (테스트/시연 모드)
+        console.log('📋 블루투스 미연결 - 더미 데이터로 일기 생성');
+        dataSource = '더미 데이터';
+        summary = {
+          temp: '22.5',
+          humid: '45',
+          dust: '25',
+          water: '70',
+          weight: '450'
+        };
+      } else {
+        // ✅ 블루투스 연결됨 → 실시간 센서 데이터 사용
+        console.log(`📡 블루투스 연결됨 - 실시간 센서 데이터로 일기 생성 (${currentInterval.length}개 데이터 수집됨)`);
+        dataSource = '실시간 센서';
+        const avg = (key) => (currentInterval.reduce((sum, item) => sum + parseFloat(item[key]), 0) / currentInterval.length).toFixed(1);
+        summary = {
+          temp: avg('temp'),
+          humid: avg('humid'),
+          dust: avg('dust'),
+          water: avg('water'),
+          weight: avg('weight')
+        };
+      }
+
+      // 강아지 정보 추가
+      const petInfoText = petInfo ? `
+[내 정보]
+- 이름: ${petInfo.name || '강아지'}
+- 품종: ${petInfo.breed || '알 수 없음'}
+- 평균 밥 섭취량: ${petInfo.foodAmount || '정보 없음'}
+- 평균 물 음수량: ${petInfo.waterAmount || '정보 없음'}
+` : '';
 
       const prompt = `
-                당신은 귀여운 강아지입니다. 오늘 하루를 일기로 써주세요.
-                환경 데이터: 온도 ${summary.temp}도, 습도 ${summary.humid}%, 미세먼지 ${summary.dust}, 수위 ${summary.water}%, 몸무게 ${summary.weight}g.
-                미세먼지가 높으면(30이상) 산책 못가서 슬픔, 온도가 높으면(28도이상) 더움 등을 표현해주세요.
-                말투는 귀엽게, 200자 이내로.
+당신은 귀여운 강아지입니다. 오늘 하루를 일기 형식으로 작성해주세요.
+${petInfoText}
+[오늘의 실내 환경 데이터]
+- 온도: ${summary.temp}°C
+- 습도: ${summary.humid}%  
+- 미세먼지(실내): ${summary.dust}㎍/㎥
+- 물통 수위: ${summary.water}% (물을 얼마나 마셨는지)
+- 밥그릇 무게 변화: ${summary.weight}g (사료를 얼마나 먹었는지)
+
+[환경 평가 기준]
+🌡️ 온도
+- 18도 미만: 춥다, 따뜻한 곳을 찾는다
+- 18-23도: 쾌적하다, 활동하기 좋다
+- 23-28도: 좀 따뜻하다, 시원한 곳을 찾는다
+- 28도 이상: 덥다, 힘들다
+
+💧 습도
+- 30% 미만: 건조하다
+- 30-60%: 쾌적하다
+- 60% 이상: 습하다, 불쾌하다
+
+🌫️ 미세먼지(실내)
+- 15 이하: 매우 좋음, 산책 가고 싶다
+- 16-35: 좋음, 쾌적하다
+- 36-75: 보통, 조금 답답하다
+- 76 이상: 나쁨, 숨쉬기 힘들다
+
+💧 물 섭취 (정확한 수치가 아니므로 표현적으로)
+- 수위가 많이 줄었다면: 목이 말라서 물을 많이 마셨다
+- 수위가 조금 줄었다면: 적당히 마셨다
+- 수위 변화가 적다면: 물을 별로 안 마셨다
+
+🍖 사료 섭취 (정확한 수치가 아니므로 표현적으로)
+- 무게가 많이 줄었다면: 밥을 맛있게 많이 먹었다
+- 무게가 조금 줄었다면: 적당히 먹었다
+- 무게 변화가 적다면: 입맛이 없었다
+
+${petInfo && petInfo.breed ? `내 품종(${petInfo.breed})의 특성을 반영해서 일기를 작성해주세요.` : ''}
+${petInfo && (petInfo.foodAmount || petInfo.waterAmount) ?
+          `평균적으로 밥은 ${petInfo.foodAmount || '?'}, 물은 ${petInfo.waterAmount || '?'} 정도 먹고 마시는데, 오늘은 어땠는지 비교해서 언급해주세요.` : ''}
+
+위 환경 데이터와 평가 기준을 바탕으로, 강아지의 입장에서 하루를 회고하는 일기를 작성해주세요.
+말투는 귀엽게, 200자 이내로 작성해주세요.
             `;
 
       // 1. 텍스트 생성 (SDK 사용)
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const diaryText = response.text();
 
-      // 2. 이미지 생성 (CORS 문제로 SVG placeholder 사용)
-      // 브라우저에서는 Imagen API를 직접 호출할 수 없습니다
-      const feeling = parseFloat(summary.temp) > 28 ? '더운 날, 시원한 곳을 찾아요' : '기분 좋은 날이에요';
-      const emoji = parseFloat(summary.temp) > 28 ? '🌡️' : '😊';
+      // 2. AI 이미지 생성 (Pollinations.ai - 무료)
+      let imgUrl;
+      try {
+        // 환경 데이터로 적절한 프롬프트 선택
+        const imagePrompt = selectImagePrompt({
+          temperature: parseFloat(summary.temp),
+          humidity: parseFloat(summary.humid),
+          dust: parseFloat(summary.dust)
+        });
 
-      const svgImage = `
+        console.log('🎨 AI 이미지 생성 시작...');
+        imgUrl = await generateDogImage(imagePrompt);
+        console.log('✅ AI 이미지 생성 완료!');
+
+      } catch (imageError) {
+        console.warn('AI 이미지 생성 실패, SVG fallback 사용:', imageError);
+
+        // Fallback: SVG 이미지 사용
+        const feeling = parseFloat(summary.temp) > 28 ? '더운 날, 시원한 곳을 찾아요' : '기분 좋은 날이에요';
+        const emoji = parseFloat(summary.temp) > 28 ? '🌡️' : '😊';
+
+        const svgImage = `
         <svg width="500" height="500" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -148,9 +241,15 @@ function App() {
         </svg>
       `;
 
-      const imgUrl = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgImage)))}`;
+        imgUrl = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgImage)))}`;
+      }
 
-      setDiaryResult({ text: diaryText, image: imgUrl, date: new Date().toLocaleDateString('ko-KR') });
+      setDiaryResult({
+        text: diaryText,
+        image: imgUrl,
+        date: new Date().toLocaleDateString('ko-KR'),
+        dataSource: dataSource  // 데이터 소스 정보 표시
+      });
 
     } catch (e) {
       console.error('Diary generation error:', e);
@@ -160,58 +259,50 @@ function App() {
     }
   };
 
+  // 화면 전환 핸들러
+  const handleNavigate = (screen) => {
+    setCurrentScreen(screen);
+  };
+
+  const handleBack = () => {
+    setCurrentScreen('main');
+  };
+
   return (
-    <div className="container">
-      {/* Header */}
-      <div className="card">
-        <h1 className="header-title"><Icons.Activity /> 강아지 환경 그림일기</h1>
-        <p>실시간 모니터링 & AI 일기 생성 시스템</p>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <button className={`btn ${isConnected ? 'btn-success' : 'btn-primary'}`} onClick={connectBluetooth} disabled={isConnected || isConnecting}>
-            {isConnecting ? '연결 중...' : isConnected ? '연결됨 (HM-10)' : '블루투스 연결'}
-          </button>
-          {isConnected && <Icons.Wifi color="#10b981" />}
-        </div>
-      </div>
+    <div className="app">
+      {currentScreen === 'main' && (
+        <Main
+          isConnected={isConnected}
+          isConnecting={isConnecting}
+          onConnect={connectBluetooth}
+          onNavigate={handleNavigate}
+        />
+      )}
 
-      {/* API Key Input */}
-      <div className="card">
-        <button className="btn" style={{ background: '#eee', color: '#333' }} onClick={() => setShowApiInput(!showApiInput)}>🔑 API 키 설정</button>
-        {showApiInput && (
-          <div className="input-group">
-            <input className="input-field" type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder="Gemini API Key" />
-            <button className="btn btn-success" onClick={() => { localStorage.setItem('gemini_api_key', apiKey); setShowApiInput(false); alert('저장됨'); }}>저장</button>
-          </div>
-        )}
-      </div>
+      {currentScreen === 'environment' && (
+        <Environment
+          sensorData={sensorData}
+          onBack={handleBack}
+          onNavigate={handleNavigate}
+        />
+      )}
 
-      {/* Sensor Dashboard */}
-      <div className="card">
-        <h2>📊 실시간 데이터</h2>
-        <div className="sensor-grid">
-          <div className="sensor-item"><Icons.Thermometer /><div className="sensor-value">{sensorData.temp}</div><div className="sensor-unit">°C 온도</div></div>
-          <div className="sensor-item"><Icons.Droplets /><div className="sensor-value">{sensorData.humid}</div><div className="sensor-unit">% 습도</div></div>
-          <div className="sensor-item"><Icons.Wind /><div className="sensor-value">{sensorData.dust}</div><div className="sensor-unit">mg/m³ 먼지</div></div>
-          <div className="sensor-item"><Icons.Droplets /><div className="sensor-value">{sensorData.water}</div><div className="sensor-unit">% 수위</div></div>
-          <div className="sensor-item"><Icons.Scale /><div className="sensor-value">{sensorData.weight}</div><div className="sensor-unit">g 무게</div></div>
-        </div>
-      </div>
+      {currentScreen === 'diary' && (
+        <Diary
+          diaryResult={diaryResult}
+          isGenerating={isGenerating}
+          onGenerateDiary={generateDiary}
+          onBack={handleBack}
+          onNavigate={handleNavigate}
+        />
+      )}
 
-      {/* Diary Section */}
-      <div className="card">
-        <h2>🎨 그림일기</h2>
-        <button className="btn btn-primary" onClick={generateDiary} disabled={isGenerating}>
-          {isGenerating ? 'AI가 일기 쓰는 중...' : '일기 생성하기'}
-        </button>
-
-        {diaryResult && (
-          <div style={{ marginTop: '20px' }}>
-            <h3>📅 {diaryResult.date}</h3>
-            {diaryResult.image && <img src={diaryResult.image} className="diary-image" alt="일기 그림" />}
-            <div className="diary-paper">{diaryResult.text}</div>
-          </div>
-        )}
-      </div>
+      {currentScreen === 'settings' && (
+        <Settings
+          onBack={handleBack}
+          onNavigate={handleNavigate}
+        />
+      )}
     </div>
   );
 }
