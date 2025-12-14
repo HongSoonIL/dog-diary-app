@@ -5,6 +5,8 @@ import Environment from './Environment';
 import Diary from './Diary';
 import Settings from './Settings';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { selectImagePrompt } from './utils/imagePrompts';
+import { generateDogImage } from './services/imageGenerationService';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('main'); // 'main', 'environment', 'diary', 'settings'
@@ -99,15 +101,17 @@ function App() {
   const generateDiary = async () => {
     const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
     if (!apiKey) return alert('API 키가 설정되지 않았습니다. .env 파일을 확인해주세요.');
-    // 테스트를 위해 데이터 체크 제거
-    // if (currentInterval.length === 0) return alert('데이터가 충분하지 않습니다. 센서를 연결하고 잠시 기다려주세요.');
 
     setIsGenerating(true);
     try {
-      // 평균값 계산 (더미 데이터 사용 - 테스트용)
+      // 📊 환경 데이터 소스 결정
       let summary;
+      let dataSource;
+
       if (currentInterval.length === 0) {
-        // 테스트용 더미 데이터
+        // 🔌 블루투스 미연결 → 더미 데이터 사용 (테스트/시연 모드)
+        console.log('📋 블루투스 미연결 - 더미 데이터로 일기 생성');
+        dataSource = '더미 데이터';
         summary = {
           temp: '22.5',
           humid: '45',
@@ -116,6 +120,9 @@ function App() {
           weight: '450'
         };
       } else {
+        // ✅ 블루투스 연결됨 → 실시간 센서 데이터 사용
+        console.log(`📡 블루투스 연결됨 - 실시간 센서 데이터로 일기 생성 (${currentInterval.length}개 데이터 수집됨)`);
+        dataSource = '실시간 센서';
         const avg = (key) => (currentInterval.reduce((sum, item) => sum + parseFloat(item[key]), 0) / currentInterval.length).toFixed(1);
         summary = {
           temp: avg('temp'),
@@ -189,11 +196,28 @@ ${petInfo && (petInfo.foodAmount || petInfo.waterAmount) ?
       const response = await result.response;
       const diaryText = response.text();
 
-      // 2. 이미지 생성 (CORS 문제로 SVG placeholder 사용)
-      const feeling = parseFloat(summary.temp) > 28 ? '더운 날, 시원한 곳을 찾아요' : '기분 좋은 날이에요';
-      const emoji = parseFloat(summary.temp) > 28 ? '🌡️' : '😊';
+      // 2. AI 이미지 생성 (Pollinations.ai - 무료)
+      let imgUrl;
+      try {
+        // 환경 데이터로 적절한 프롬프트 선택
+        const imagePrompt = selectImagePrompt({
+          temperature: parseFloat(summary.temp),
+          humidity: parseFloat(summary.humid),
+          dust: parseFloat(summary.dust)
+        });
 
-      const svgImage = `
+        console.log('🎨 AI 이미지 생성 시작...');
+        imgUrl = await generateDogImage(imagePrompt);
+        console.log('✅ AI 이미지 생성 완료!');
+
+      } catch (imageError) {
+        console.warn('AI 이미지 생성 실패, SVG fallback 사용:', imageError);
+
+        // Fallback: SVG 이미지 사용
+        const feeling = parseFloat(summary.temp) > 28 ? '더운 날, 시원한 곳을 찾아요' : '기분 좋은 날이에요';
+        const emoji = parseFloat(summary.temp) > 28 ? '🌡️' : '😊';
+
+        const svgImage = `
         <svg width="500" height="500" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -217,9 +241,15 @@ ${petInfo && (petInfo.foodAmount || petInfo.waterAmount) ?
         </svg>
       `;
 
-      const imgUrl = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgImage)))}`;
+        imgUrl = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgImage)))}`;
+      }
 
-      setDiaryResult({ text: diaryText, image: imgUrl, date: new Date().toLocaleDateString('ko-KR') });
+      setDiaryResult({
+        text: diaryText,
+        image: imgUrl,
+        date: new Date().toLocaleDateString('ko-KR'),
+        dataSource: dataSource  // 데이터 소스 정보 표시
+      });
 
     } catch (e) {
       console.error('Diary generation error:', e);
