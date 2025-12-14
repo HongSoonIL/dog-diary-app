@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import Main from './Main';
 import Environment from './Environment';
@@ -19,11 +19,22 @@ function App() {
   const [diaryResult, setDiaryResult] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  // 강아지 설정 정보
+  const [petInfo, setPetInfo] = useState(null);
+
   const textDecoder = new TextDecoder('utf-8');
   const lineBuffer = useRef('');
 
   const BLE_SERVICE_UUID = '0000ffe0-0000-1000-8000-00805f9b34fb';
   const BLE_CHARACTERISTIC_UUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
+
+  // localStorage에서 강아지 설정 정보 로드
+  useEffect(() => {
+    const savedData = localStorage.getItem('petSettingsData');
+    if (savedData) {
+      setPetInfo(JSON.parse(savedData));
+    }
+  }, []);
 
   // 블루투스 연결 함수
   const connectBluetooth = async () => {
@@ -88,24 +99,45 @@ function App() {
   const generateDiary = async () => {
     const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
     if (!apiKey) return alert('API 키가 설정되지 않았습니다. .env 파일을 확인해주세요.');
-    if (currentInterval.length === 0) return alert('데이터가 충분하지 않습니다. 센서를 연결하고 잠시 기다려주세요.');
+    // 테스트를 위해 데이터 체크 제거
+    // if (currentInterval.length === 0) return alert('데이터가 충분하지 않습니다. 센서를 연결하고 잠시 기다려주세요.');
 
     setIsGenerating(true);
     try {
-      // 평균값 계산
-      const avg = (key) => (currentInterval.reduce((sum, item) => sum + parseFloat(item[key]), 0) / currentInterval.length).toFixed(1);
+      // 평균값 계산 (더미 데이터 사용 - 테스트용)
+      let summary;
+      if (currentInterval.length === 0) {
+        // 테스트용 더미 데이터
+        summary = {
+          temp: '22.5',
+          humid: '45',
+          dust: '25',
+          water: '70',
+          weight: '450'
+        };
+      } else {
+        const avg = (key) => (currentInterval.reduce((sum, item) => sum + parseFloat(item[key]), 0) / currentInterval.length).toFixed(1);
+        summary = {
+          temp: avg('temp'),
+          humid: avg('humid'),
+          dust: avg('dust'),
+          water: avg('water'),
+          weight: avg('weight')
+        };
+      }
 
-      const summary = {
-        temp: avg('temp'),
-        humid: avg('humid'),
-        dust: avg('dust'),
-        water: avg('water'),
-        weight: avg('weight')
-      };
+      // 강아지 정보 추가
+      const petInfoText = petInfo ? `
+[내 정보]
+- 이름: ${petInfo.name || '강아지'}
+- 품종: ${petInfo.breed || '알 수 없음'}
+- 평균 밥 섭취량: ${petInfo.foodAmount || '정보 없음'}
+- 평균 물 음수량: ${petInfo.waterAmount || '정보 없음'}
+` : '';
 
       const prompt = `
 당신은 귀여운 강아지입니다. 오늘 하루를 일기 형식으로 작성해주세요.
-
+${petInfoText}
 [오늘의 실내 환경 데이터]
 - 온도: ${summary.temp}°C
 - 습도: ${summary.humid}%  
@@ -140,6 +172,10 @@ function App() {
 - 무게가 많이 줄었다면: 밥을 맛있게 많이 먹었다
 - 무게가 조금 줄었다면: 적당히 먹었다
 - 무게 변화가 적다면: 입맛이 없었다
+
+${petInfo && petInfo.breed ? `내 품종(${petInfo.breed})의 특성을 반영해서 일기를 작성해주세요.` : ''}
+${petInfo && (petInfo.foodAmount || petInfo.waterAmount) ?
+          `평균적으로 밥은 ${petInfo.foodAmount || '?'}, 물은 ${petInfo.waterAmount || '?'} 정도 먹고 마시는데, 오늘은 어땠는지 비교해서 언급해주세요.` : ''}
 
 위 환경 데이터와 평가 기준을 바탕으로, 강아지의 입장에서 하루를 회고하는 일기를 작성해주세요.
 말투는 귀엽게, 200자 이내로 작성해주세요.
