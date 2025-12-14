@@ -44,6 +44,16 @@ function Diary({ diaryResult, isGenerating, onGenerateDiary, onBack, onNavigate 
                 {diaryResult && (
                     <div className="diary-result">
                         <h3>📅 {diaryResult.date}</h3>
+                        {diaryResult.dataSource && (
+                            <div style={{
+                                fontSize: '0.9rem',
+                                color: diaryResult.dataSource === '실시간 센서' ? '#28a745' : '#6c757d',
+                                marginBottom: '10px',
+                                fontWeight: '500'
+                            }}>
+                                {diaryResult.dataSource === '실시간 센서' ? '📡' : '📋'} {diaryResult.dataSource} 사용
+                            </div>
+                        )}
                         {diaryResult.image && (
                             <img src={diaryResult.image} className="diary-image" alt="일기 그림" />
                         )}
