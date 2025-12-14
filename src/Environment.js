@@ -68,7 +68,7 @@ function Environment({ sensorData, onBack, onNavigate }) {
     // 상태 계산 (데이터가 없을 경우 0으로 처리)
     const tempInfo = getTempStatus(sensorData.temp || 0);
     const dustInfo = getDustStatus(sensorData.dust || 0);
-    const humidInfo = getHumidStatus(sensorData.humidity || 0);
+    const humidInfo = getHumidStatus(sensorData.humid || 0);
     const waterInfo = getWaterStatus(sensorData.water || 0);
     const foodInfo = getFoodStatus(sensorData.food || 0);
 
@@ -118,7 +118,7 @@ function Environment({ sensorData, onBack, onNavigate }) {
                     <div className="sensor-circle sensor-humid">
                         {/* 메인 아이콘 변경. 쾌적할 땐 아이콘 대신 텍스트가 나오게 설정되어 있어서 수정 */}
                         <div className="sensor-icon">{humidInfo.icon === "쾌적해요" ? "✨" : humidInfo.icon}</div>
-                        <div className="sensor-value">{sensorData.humidity || 0}%</div>
+                        <div className="sensor-value">{sensorData.humid || 0}%</div>
                         <div className={`sensor-status ${humidInfo.isBad ? 'status-alert' : ''}`}>
                             {humidInfo.text}
                         </div>
