@@ -1,4 +1,4 @@
-/* 환경 화면 스타일 - 새로운 2줄 레이아웃 */
+/* 환경 화면 스타일 */
 
 .environment-screen {
     width: 100vw;
@@ -7,8 +7,6 @@
     overflow: hidden;
     position: relative;
 }
-
-/* Paper background - removed */
 
 /* Back button */
 .environment-screen .back-btn {
@@ -32,8 +30,6 @@
     background-color: rgba(100, 130, 96, 1);
     transform: translateY(-2px);
 }
-
-/* 바인더 구멍 제거됨 */
 
 /* Header */
 .environment-screen .env-header {
@@ -128,7 +124,7 @@
 .environment-screen .sensor-value {
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 600;
-    font-size: 32px;
+    font-size: 25px;
     line-height: 1.2;
     color: #000000;
     text-align: center;
@@ -137,7 +133,7 @@
 .environment-screen .sensor-status {
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 500;
-    font-size: 28px;
+    font-size: 20px;
     line-height: 1.2;
     color: #000000;
     text-align: center;
@@ -146,12 +142,20 @@
 .environment-screen .sensor-status-large {
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 500;
-    font-size: 28px;
+    font-size: 20px;
     line-height: 1.3;
     color: #000000;
     text-align: center;
 }
 
+/* !!! 중요: 상태가 나쁠 때 빨간색으로 표시하는 클래스 !!! */
+.environment-screen .status-alert {
+    color: #FF4500 !important;
+    /* 오렌지레드 색상, 우선순위 높임 */
+    font-weight: 700;
+}
+
+/* Circle Colors */
 /* Temperature - yellow */
 .environment-screen .sensor-temp::before {
     background: #F3DCA8;
@@ -162,7 +166,7 @@
     background: #C9E1B1;
 }
 
-/* Humidity (drinking) - blue */
+/* Humidity - blue */
 .environment-screen .sensor-humid::before {
     background: #CCE4EB;
 }
@@ -177,7 +181,7 @@
     background: #D1C2AE;
 }
 
-/* Right side menu buttons - 메인 화면과 동일 */
+/* Menu buttons */
 .environment-screen .menu {
     position: absolute;
     right: 105px;
@@ -276,10 +280,6 @@
 }
 
 @media (max-width: 768px) {
-    .environment-screen .binder-holes .hole {
-        display: none;
-    }
-
     .environment-screen .env-header {
         top: 80px;
         left: 50%;
@@ -322,7 +322,8 @@
         font-size: 24px;
     }
 
-    .environment-screen .sensor-status {
+    .environment-screen .sensor-status,
+    .environment-screen .sensor-status-large {
         font-size: 20px;
     }
 
