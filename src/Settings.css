@@ -49,45 +49,40 @@
 /* ===== 1) 초록 메뉴: 맨 뒤 ===== */
 .settings-screen .menu {
   position: absolute;
-  right: 250px;      /* Main쪽 값 */
-  top: 35%;          /* Main쪽 값 */
+  right: 250px;
+  top: 35%;
   transform: translateY(-190px);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  z-index: 0;        /* 맨 뒤 */
+  z-index: 0;
 }
 
 .settings-screen .menu-button {
-  width: 110px;      /* Main쪽 값 */
-  padding: 30px 0;   /* Main쪽 값 */
-  background-color: #7B9777;
+  width: 110px;
+  padding: 30px;
+  background-color: #7A9B7F;
   color: white;
   border: none;
-  border-radius: 0 30px 30px 0; /* Main쪽 값 */
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: 600;  /* Main쪽 값 */
-  font-size: 40px;   /* Main쪽 값 */
-  line-height: 1.2;
+  border-radius: 0 22px 22px 0;
+  font-size: 38px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
 
   writing-mode: vertical-rl;
   text-orientation: upright;
-  letter-spacing: 14px; /* Main쪽 값 */
-  
+  letter-spacing: 14px;
+
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .settings-screen .menu-button:hover {
-  background-color: #6A8B6F;
+  background-color: #3d5639; 
   transform: translateX(5px);
-  box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 6px 6px 16px rgba(0,0,0,0.2);
 }
 
-.settings-screen .menu-environment { background-color: #7A9B7F; }
-.settings-screen .menu-diary       { background-color: #7A9B7F; }
-.settings-screen .menu-settings    { background-color: #A4B89D; }
 
 /* ===== 2) 종이/질감/구멍: 메뉴 위, 컨텐츠 아래 ===== */
 .settings-paper-bg {
@@ -340,7 +335,7 @@ input:focus {
 }
 
 .save-btn-large:hover {
-  background: rgba(100, 130, 96, 1);
+  background-color: #3d5639; 
   transform: scale(1.01);
 }
 
@@ -368,30 +363,6 @@ input:focus {
   border-bottom: 2px solid  rgba(51,39,5,0.1);
 }
 
-/* 하단 로고 */
-.settings-screen .logo {
-  position: absolute;
-  bottom: 135px;
-  left: 120px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 4;
-}
-
-.settings-screen .logo-icon {
-  font-size: 32px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
-.settings-screen .logo-text {
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #5D4037;
-  letter-spacing: -0.5px;
-}
-
 
 
 
@@ -400,8 +371,7 @@ input:focus {
 /* 반응형 */
 @media (max-width: 900px) {
   .settings-content {
-    margin-left: 0;
-    padding: 120px 20px 20px;
+      position: relative;
   }
 
   .settings-screen .back-btn {
@@ -430,3 +400,33 @@ input:focus {
     justify-content: center;
   }
 }
+
+
+
+
+/* ===== Bottom Logo ===== */
+.logo {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 4;
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+
+
+
+.logo-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: #4A4A4A;
+}
+

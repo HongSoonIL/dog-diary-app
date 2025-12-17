@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Settings.css';
 import defaultProfileImg from './assets/profile.png';
 import paperTexture from './assets/paper_texture.png';
+import puppyIcon from './assets/puppy_icon.png';
 
 
 function Settings({ onBack, onNavigate }) {
@@ -91,12 +92,12 @@ function Settings({ onBack, onNavigate }) {
                 <button className="menu-button menu-diary" onClick={() => onNavigate('diary')}>일기</button>
                 <button className="menu-button menu-settings">설정</button>
             </div>
-
-            {/* Logo - Bottom Left */}
+            {/* Bottom Right Logo (Main과 동일) */}
             <div className="logo">
-                <span className="logo-icon">🐾</span>
+                <img src={puppyIcon} alt="강아지 발바닥 로고" className="logo-icon" />
                 <span className="logo-text">재롱이</span>
             </div>
+        
 
             {/* 메인 컨텐츠 */}
             <div className="settings-content">
