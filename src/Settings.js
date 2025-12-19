@@ -64,21 +64,21 @@ function Settings({ onBack, onNavigate }) {
 
     return (
 
-    
+
         <div className="settings-screen">
-                  {/* ✅ [추가] 메인과 동일한 종이 배경 레이어 */}
-        <div className="settings-paper-bg">
-            <div
-            className="texture-overlay"
-            style={{ backgroundImage: `url(${paperTexture})` }}
-            />
-            <div className="hole-container">
-            <div className="hole" />
-            <div className="hole" />
-            <div className="hole" />
-            <div className="hole" />
+            {/* ✅ [추가] 메인과 동일한 종이 배경 레이어 */}
+            <div className="settings-paper-bg">
+                <div
+                    className="texture-overlay"
+                    style={{ backgroundImage: `url(${paperTexture})` }}
+                />
+                <div className="hole-container">
+                    <div className="hole" />
+                    <div className="hole" />
+                    <div className="hole" />
+                    <div className="hole" />
+                </div>
             </div>
-        </div>
 
 
             {/* 뒤로가기 버튼 */}
@@ -97,7 +97,7 @@ function Settings({ onBack, onNavigate }) {
                 <img src={puppyIcon} alt="강아지 발바닥 로고" className="logo-icon" />
                 <span className="logo-text">재롱이</span>
             </div>
-        
+
 
             {/* 메인 컨텐츠 */}
             <div className="settings-content">
