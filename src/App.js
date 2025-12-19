@@ -12,7 +12,7 @@ function App() {
   const [currentScreen, setCurrentScreen] = useState('main'); // 'main', 'environment', 'diary', 'settings'
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
-  const [sensorData, setSensorData] = useState({ temp: '--', humid: '--', dust: '--', water: '--', weight: '--' });
+  const [sensorData, setSensorData] = useState({ temp: '--', humid: '--', dust: '--', water: '--', food: '--' });
 
   // 데이터 수집용
   const [currentInterval, setCurrentInterval] = useState([]);
@@ -48,7 +48,7 @@ function App() {
 
       device.addEventListener('gattserverdisconnected', () => {
         setIsConnected(false);
-        setSensorData({ temp: '--', humid: '--', dust: '--', water: '--', weight: '--' });
+        setSensorData({ temp: '--', humid: '--', dust: '--', water: '--', food: '--' });
         alert('연결이 끊어졌습니다.');
         setCurrentScreen('main'); // 연결이 끊어지면 메인으로 복귀
       });
@@ -87,7 +87,7 @@ function App() {
             humid: parts[3],
             dust: parts[5],
             water: parts[7],
-            weight: parts[9]
+            food: parts[9]
           };
           setSensorData(newData);
           // 데이터 축적 (일기 생성용)
@@ -117,7 +117,7 @@ function App() {
           humid: '45',
           dust: '25',
           water: '70',
-          weight: '450'
+          food: '450'
         };
       } else {
         // ✅ 블루투스 연결됨 → 실시간 센서 데이터 사용
@@ -129,7 +129,7 @@ function App() {
           humid: avg('humid'),
           dust: avg('dust'),
           water: avg('water'),
-          weight: avg('weight')
+          food: avg('food')
         };
       }
 
@@ -150,7 +150,7 @@ ${petInfoText}
 - 습도: ${summary.humid}%  
 - 미세먼지(실내): ${summary.dust}㎍/㎥
 - 물통 수위: ${summary.water}% (물을 얼마나 마셨는지)
-- 밥그릇 무게 변화: ${summary.weight}g (사료를 얼마나 먹었는지)
+- 밥그릇 무게 변화: ${summary.food}g (사료를 얼마나 먹었는지)
 
 [환경 평가 기준]
 🌡️ 온도
@@ -236,7 +236,7 @@ ${petInfo && (petInfo.foodAmount || petInfo.waterAmount) ?
             온도: ${summary.temp}°C | 습도: ${summary.humid}%
           </text>
           <text x="250" y="395" font-size="16" text-anchor="middle" fill="#666">
-            미세먼지: ${summary.dust} | 무게: ${summary.weight}g
+            미세먼지: ${summary.dust} | 무게: ${summary.food}g
           </text>
         </svg>
       `;
