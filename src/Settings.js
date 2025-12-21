@@ -86,7 +86,7 @@ function Settings({ onBack, onNavigate }) {
                 ← 뒤로
             </button>
 
-            {/* [수정됨] 오른쪽 사이드 메뉴 (세로형) */}
+            {/* Right Menu (Main과 동일한 위치/스타일) */}
             <div className="menu">
                 <button className="menu-button menu-environment" onClick={() => onNavigate('environment')}>환경</button>
                 <button className="menu-button menu-diary" onClick={() => onNavigate('diary')}>일기</button>

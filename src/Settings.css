@@ -151,7 +151,15 @@
   /* 기존 느낌 유지 (필요하면 숫자만 조절) */
   margin-left: 330px;
   padding-top: 170px;
+
+  pointer-events: none; /* 투명한 컨텐츠 박스가 클릭을 가로막지 않도록 뚫어줌 */
 }
+
+
+.settings-content > * {
+  pointer-events: auto; /* 내부의 실제 요소(텍스트, 버튼, 입력창 등)는 다시 클릭되게 복구 */
+}
+
 
 
 
@@ -380,44 +388,6 @@ input:focus {
   color: var(--color-text-sub);
   padding-bottom: 10px;
   border-bottom: 2px solid rgba(51, 39, 5, 0.1);
-}
-
-
-
-
-
-
-/* 반응형 */
-@media (max-width: 900px) {
-  .settings-content {
-    position: relative;
-  }
-
-  .settings-screen .back-btn {
-    top: 10px;
-    left: 10px;
-    padding: 8px 16px;
-    font-size: 1rem;
-  }
-
-  .settings-header-section {
-    flex-direction: column;
-    text-align: center;
-    gap: 30px;
-  }
-
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .input-large {
-    text-align: center;
-    font-size: 2.5rem;
-  }
-
-  .input-row {
-    justify-content: center;
-  }
 }
 
 
