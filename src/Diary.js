@@ -31,7 +31,7 @@ function Diary({
         </div>
       </div>
       <button className="back-btn" onClick={onBack}>
-              뒤로가기
+              ← 뒤로
             </button>
 
       {/* ===== 메인 레이아웃 ===== */}
@@ -72,21 +72,9 @@ function Diary({
 
       {/* ===== 오른쪽 메뉴 ===== */}
       <div className="menu">
-        <button
-          className="menu-button menu-environment"
-          onClick={() => onNavigate('environment')}
-        >
-          환경
-        </button>
-        <button className="menu-button menu-diary">
-          일기
-        </button>
-        <button
-          className="menu-button menu-settings"
-          onClick={() => onNavigate('settings')}
-        >
-          설정
-        </button>
+          <button className="menu-button menu-environment" onClick={() => onNavigate('environment')}>환경</button>
+          <button className="menu-button menu-diary">일기</button>
+          <button className="menu-button menu-settings"  onClick={() => onNavigate('settings')}>설정</button>
       </div>
 
       {/* ===== 하단 로고 ===== */}
