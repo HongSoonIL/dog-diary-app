@@ -40,7 +40,7 @@ function Environment({ sensorData, onBack, onNavigate }) {
 
   const tempInfo = getTempStatus(sensorData.temp || 0);
   const dustInfo = getDustStatus(sensorData.dust || 0);
-  const humidInfo = getHumidStatus(sensorData.humidity || 0);
+  const humidInfo = getHumidStatus(sensorData.humid || 0);
   const waterInfo = getWaterStatus(sensorData.water || 0);
   const foodInfo = getFoodStatus(sensorData.food || 0);
 
@@ -99,7 +99,7 @@ function Environment({ sensorData, onBack, onNavigate }) {
         <div className="sensor-card">
           <div className="sensor-circle sensor-humid">
             <div className="sensor-icon">{humidInfo.icon}</div>
-            <div className="sensor-value">{sensorData.humidity || 0}%</div>
+            <div className="sensor-value">{sensorData.humid || 0}%</div>
             <div className={`sensor-status ${humidInfo.isBad ? 'status-alert' : ''}`}>
               {humidInfo.text}
             </div>
